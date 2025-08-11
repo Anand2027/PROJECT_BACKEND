@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Login() {
+const Navbar = () => {
   return (
     <div>
-    this is contact
+      
     </div>
   )
 }
 
-export default Login
+export default Navbar
