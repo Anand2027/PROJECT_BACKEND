@@ -7,7 +7,7 @@ const Navbar = () => {
     <>
       <div className="container">
         <div className="logo-brand">
-          <a href="/">aur batao kya haal chal</a>
+          <a href="/">Tech Anand Solutions</a>
         </div>
 
         <nav>

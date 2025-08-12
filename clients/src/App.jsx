@@ -5,8 +5,10 @@ import Contact from "./pages/Contact"; // make sure Home component exists
 import Service from "./pages/Service";
 import Register from "./pages/Register"; // make sure Home component exists
 import Login from "./pages/Login";
+import { Error } from "./pages/Error";
 
 import Navbar from "./components/Navbar";
+import { Footer } from "./components/Footer/Footer";
 
 
 
@@ -23,7 +25,9 @@ const App = () => {
             <Route path="/sevice" element={<Service/>} />
             <Route path="/register" element={<Register/>} />
            <Route path="/login" element={<Login />} />
+           <Route path="*"  element={<Error/>} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   );
