@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
@@ -8,6 +9,8 @@ function Login() {
     password: "",
   });
 
+
+  const navigate = useNavigate();
 
    const handleInput = (e) => {
     console.log(e);
@@ -21,11 +24,39 @@ function Login() {
     })
   };
 
-    const handleSubmit =(e) =>{
+     // handling the form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // alert(user)
-    console.log(user)
-  }
+    console.log(user);
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      console.log("login form",response)
+
+      if(response.ok){
+        setUser({
+          email:"",
+          password:""
+      });
+
+      navigate("/")
+
+      }else{
+        alert("invalid credentials");
+        console.log("invalid credentials")
+      }
+    } catch (error) {
+      console.log( error);
+    }
+  };
+
 
 
 
