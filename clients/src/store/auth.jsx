@@ -1,16 +1,29 @@
-import { createContext, useContext } from "react";
+import { useState, createContext, useContext } from "react";
 
 // 1. Create the context
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
+    const [token,setToken]= useState(localStorage.getItem("token"))
+
+
   // 2. Store token function
   const storeTokenInLS = (serverToken) => {
     localStorage.setItem("token", serverToken);
   };
 
+let isLoggedIn = !!token;
+console.log("isLogIn", isLoggedIn)
+
+//   tackling the logot functionality
+const LogoutUser = () =>{
+ setToken("")
+ return localStorage.removeItem("token");
+}
+
   return (
-    <AuthContext.Provider value={{ storeTokenInLS }}>
+    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser}}>
       {children}
     </AuthContext.Provider>
   );
