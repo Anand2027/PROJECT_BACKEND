@@ -73,3 +73,6 @@ const login = async (req, res) => {
 
 module.exports = { home, register, login };
 
+// yaha par hum log ek baar me hi sab bhejenge teeno
+// isme home, register and login sabkuchh hoga
+
