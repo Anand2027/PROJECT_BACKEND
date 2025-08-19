@@ -72,3 +72,7 @@ userSchema.methods.generateAToken = async function() {
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+
+
+// isme pre wala ek baar dekh lena kyu h aur kis liye
+// bcz contact-moel me to nahi hai
