@@ -16,7 +16,7 @@ const corsOptions = {
 }
 
 // lets handle cors
-app.use(cors(corsOptions))
+app.use(cors(corsOptions))    //yahan pr tum chat gpt bhi use kar sakte ho ananad
 
 app.use(express.json())   // middleware
 app.use("/api/form",contactRoute)

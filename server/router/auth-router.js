@@ -4,6 +4,7 @@ const router = express.Router();
 const authcontrollers = require('../controllers/auth-controller');
 const  signupSchema  = require('../validators/auth-validator');
 const validate = require('../middlewares/validate-middleware');
+const authMiddleware = require("../middlewares/auth-middleware")
 
 // GET /api/auth/
 router.route('/').get(authcontrollers.home);
@@ -12,7 +13,8 @@ router.route('/').get(authcontrollers.home);
 router.route('/register').post(validate(signupSchema ), authcontrollers.register);
 // POST /api/auth/login
 router.route('/login').post(authcontrollers.login); 
-// POST /api/auth/logout
+
+router.route("/user").get(authMiddleware,authcontrollers.user)
 
 
 module.exports = router;

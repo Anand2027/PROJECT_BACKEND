@@ -71,7 +71,22 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { home, register, login };
+
+
+// to send user data - User Logic
+
+ const user = async (req,res)=>{
+    try{
+        const userData = req.user;
+        console.log(userData)
+        return res.status(200).json({msg:userData})   
+    } catch (error){
+        console.log(`error from the user route ${error}`)
+    }
+ }
+
+
+module.exports = { home, register, login, user };
 
 // yaha par hum log ek baar me hi sab bhejenge teeno
 // isme home, register and login sabkuchh hoga
