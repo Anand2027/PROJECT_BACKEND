@@ -1,6 +1,5 @@
-import { useState } from "react";
-// import { useAuth } from "../store/auth";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../store/auth";
 
 const defaultContactFormData = {
   username: "",
@@ -8,34 +7,31 @@ const defaultContactFormData = {
   message: "",
 };
 
- const Contact = () => {
+const Contact = () => {
   const [contact, setContact] = useState(defaultContactFormData);
+  const { user, API } = useAuth(); // ✅ must be inside component
 
-  // const [userData, setUserData] = useState(true);
+  // ✅ Auto-fill only once when user is available
+  useEffect(() => {
+    if (user) {
+      setContact({
+        username: user.username || "",
+        email: user.email || "",
+        message: "",
+      });
+    }
+  }, [user]);
 
-//   const { user, API } = useAuth();
-//   useEffect(() => {
-//     if (user) {
-//       setContact({
-//         username: user.username,
-//         email: user.email,
-//         message: "",
-//       });
-//     }
-//   }, [user]);
-
-  // lets tackle our handleInput
+  // handle input change
   const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setContact({
-      ...contact,
+    const { name, value } = e.target;
+    setContact((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
-  // handle fomr getFormSubmissionInfo
+  // handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -48,15 +44,19 @@ const defaultContactFormData = {
         body: JSON.stringify(contact),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         setContact(defaultContactFormData);
-        const data = await response.json();
         console.log(data);
-        alert("Message send successfully");
+        alert("✅ Message sent successfully");
+      } else {
+        console.error("❌ Error:", data);
+        alert(data.message || "Message not sent");
       }
     } catch (error) {
-      alert("Message not send");
-      console.log(error);
+      alert("Something went wrong ❌");
+      console.error(error);
     }
   };
 
@@ -64,19 +64,20 @@ const defaultContactFormData = {
     <>
       <section className="section-contact">
         <div className="contact-content container">
-          <h1 className="main-heading">contact us</h1>
+          <h1 className="main-heading">Contact Us</h1>
         </div>
-        {/* contact page main  */}
+
+        {/* contact page main */}
         <div className="container grid grid-two-cols">
           <div className="contact-img">
             <img src="/images/support.png" alt="we are always ready to help" />
           </div>
 
-          {/* contact form content actual  */}
+          {/* contact form */}
           <section className="section-form">
             <form onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="username">username</label>
+                <label htmlFor="username">Username</label>
                 <input
                   type="text"
                   name="username"
@@ -89,7 +90,7 @@ const defaultContactFormData = {
               </div>
 
               <div>
-                <label htmlFor="email">email</label>
+                <label htmlFor="email">Email</label>
                 <input
                   type="email"
                   name="email"
@@ -102,7 +103,7 @@ const defaultContactFormData = {
               </div>
 
               <div>
-                <label htmlFor="message">message</label>
+                <label htmlFor="message">Message</label>
                 <textarea
                   name="message"
                   id="message"
@@ -116,12 +117,13 @@ const defaultContactFormData = {
               </div>
 
               <div>
-                <button type="submit">submit</button>
+                <button type="submit">Submit</button>
               </div>
             </form>
           </section>
         </div>
 
+        {/* google map */}
         <section className="mb-3">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2613173278896!2d73.91411937501422!3d18.562253982539413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20Pune!5e0!3m2!1sen!2sin!4v1697604225432!5m2!1sen!2sin"
@@ -137,8 +139,7 @@ const defaultContactFormData = {
   );
 };
 
-export default Contact
-
+export default Contact;
 
 
 

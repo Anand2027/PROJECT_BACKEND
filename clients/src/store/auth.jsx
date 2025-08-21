@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext , useEffect} from "react";
 
 // 1. Create the context
 const AuthContext = createContext();
@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
     const [token,setToken]= useState(localStorage.getItem("token"))
+    const[user,setUser]= useState("")
 
 
   // 2. Store token function
@@ -22,8 +23,36 @@ const LogoutUser = () =>{
  return localStorage.removeItem("token");
 }
 
+// JWT AUTHENTICATION - to get the currently loggedIN data
+
+const userAuthentication = async()=>{
+ try{
+ const response = await fetch('http://localhost:5000/api/auth/user',{
+  method:"GET",
+  headers:{
+    Authorization:`Bearer ${token}`,
+  }
+ })
+
+if(response.ok){
+  const data = await response.json()
+  console.log("user data",data.userData)
+  setUser(data.userData)
+}
+
+ } catch(error){
+  console.log("Error fetching user data")
+ }
+}
+
+useEffect(()=>{
+  userAuthentication()
+},[])
+
+
+
   return (
-    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser}}>
+    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser,user}}>
       {children}
     </AuthContext.Provider>
   );
@@ -48,6 +77,42 @@ export const useAuth = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import {createContext, useContext} from "react"
+
+// export const AuthProvider =({children})=>{
+//     const storeTokens = (servertoken)=>{
+//         return localStorage.setItem("token",serverToken);
+//     }
+//         return(
+//             <AuthContext.Provider value={{storeTokenInLS}}>
+//                 {children}
+//                 </AuthContext.Provider>
+   
+//         )
+//     }
+
+//     export const useAuth =()=>{    
+//         const authContextValue = useContext(AuthContext);
+//         if(!authContextValue){
+//             throw new Error("useAuth used outside of the Provider")
+//         }
+//         return authContextValue
+//     }
 
 
 
