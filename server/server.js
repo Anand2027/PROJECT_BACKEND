@@ -22,6 +22,8 @@ app.use(express.json())   // middleware
 app.use("/api/form",contactRoute)
 
 
+
+
 // Register the router with the correct path
 app.use('/api/auth', authRouter);
 

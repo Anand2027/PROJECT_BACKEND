@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../store/auth";
+import { useEffect } from "react";
 
 const defaultContactFormData = {
   username: "",
@@ -9,34 +10,37 @@ const defaultContactFormData = {
 
 const Contact = () => {
   const [contact, setContact] = useState(defaultContactFormData);
-  const { user, API } = useAuth(); // ✅ must be inside component
 
-  // ✅ Auto-fill only once when user is available
+  // const [userData, setUserData] = useState(true);
+
+  const { user} = useAuth();
   useEffect(() => {
     if (user) {
       setContact({
-        username: user.username || "",
-        email: user.email || "",
+        username: user.username,
+        email: user.email,
         message: "",
       });
     }
   }, [user]);
 
-  // handle input change
+  // lets tackle our handleInput
   const handleInput = (e) => {
-    const { name, value } = e.target;
-    setContact((prev) => ({
-      ...prev,
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setContact({
+      ...contact,
       [name]: value,
-    }));
+    });
   };
 
-  // handle form submit
+  // handle fomr getFormSubmissionInfo
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${API}/api/form/contact`, {
+      const response = await fetch('http://localhost:5000/api/form/contact', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,19 +48,15 @@ const Contact = () => {
         body: JSON.stringify(contact),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         setContact(defaultContactFormData);
+        const data = await response.json();
         console.log(data);
-        alert("✅ Message sent successfully");
-      } else {
-        console.error("❌ Error:", data);
-        alert(data.message || "Message not sent");
+        alert("Message send successfully");
       }
     } catch (error) {
-      alert("Something went wrong ❌");
-      console.error(error);
+      alert("Message not.......... send");
+      console.log(error);
     }
   };
 
@@ -64,20 +64,19 @@ const Contact = () => {
     <>
       <section className="section-contact">
         <div className="contact-content container">
-          <h1 className="main-heading">Contact Us</h1>
+          <h1 className="main-heading">contact us</h1>
         </div>
-
-        {/* contact page main */}
+        {/* contact page main  */}
         <div className="container grid grid-two-cols">
           <div className="contact-img">
             <img src="/images/support.png" alt="we are always ready to help" />
           </div>
 
-          {/* contact form */}
+          {/* contact form content actual  */}
           <section className="section-form">
             <form onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">username</label>
                 <input
                   type="text"
                   name="username"
@@ -90,7 +89,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">email</label>
                 <input
                   type="email"
                   name="email"
@@ -103,7 +102,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message">message</label>
                 <textarea
                   name="message"
                   id="message"
@@ -117,13 +116,12 @@ const Contact = () => {
               </div>
 
               <div>
-                <button type="submit">Submit</button>
+                <button type="submit">submit</button>
               </div>
             </form>
           </section>
         </div>
 
-        {/* google map */}
         <section className="mb-3">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2613173278896!2d73.91411937501422!3d18.562253982539413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20Pune!5e0!3m2!1sen!2sin!4v1697604225432!5m2!1sen!2sin"
@@ -140,161 +138,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
-
-
-
-// // Import necessary React hooks
-// import { useState } from "react";
-// // import { useAuth } from "../store/auth"; // For authentication context (currently commented)
-// import { useEffect } from "react";
-
-// // Default form data (initial state values for the contact form)
-// const defaultContactFormData = {
-//   username: "",
-//   email: "",
-//   message: "",
-// };
-
-// const Contact = () => {
-//   // State to store form input values
-//   const [contact, setContact] = useState(defaultContactFormData);
-
-//   // If you want to pre-fill user data when logged in, you can use this code
-//   // const [userData, setUserData] = useState(true);
-//   // const { user, API } = useAuth();
-//   // useEffect(() => {
-//   //   if (user) {
-//   //     setContact({
-//   //       username: user.username,
-//   //       email: user.email,
-//   //       message: "",
-//   //     });
-//   //   }
-//   // }, [user]);
-
-//   // Function to handle input changes for all form fields
-//   const handleInput = (e) => {
-//     const name = e.target.name;   // Input field name (username/email/message)
-//     const value = e.target.value; // Input field value
-
-//     // Update state by keeping old values and changing only the current field
-//     setContact({
-//       ...contact,
-//       [name]: value,
-//     });
-//   };
-
-//   // Function to handle form submission
-//   const handleSubmit = async (e) => {
-//     e.preventDefault(); // Prevent page reload on form submit
-
-//     try {
-//       // Send POST request with form data to backend API
-//       const response = await fetch(`${API}/api/form/contact`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(contact), // Convert JS object to JSON
-//       });
-
-//       // If request is successful
-//       if (response.ok) {
-//         setContact(defaultContactFormData); // Reset form fields
-//         const data = await response.json(); // Get server response
-//         console.log(data);
-//         alert("Message sent successfully");
-//       }
-//     } catch (error) {
-//       // Handle errors (e.g., no internet / server down)
-//       alert("Message not sent");
-//       console.log(error);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <section className="section-contact">
-//         <div className="contact-content container">
-//           <h1 className="main-heading">contact us</h1>
-//         </div>
-
-//         {/* Contact page main section */}
-//         <div className="container grid grid-two-cols">
-//           {/* Left side image */}
-//           <div className="contact-img">
-//             <img src="/images/support.png" alt="we are always ready to help" />
-//           </div>
-
-//           {/* Right side contact form */}
-//           <section className="section-form">
-//             <form onSubmit={handleSubmit}>
-//               {/* Username input */}
-//               <div>
-//                 <label htmlFor="username">username</label>
-//                 <input
-//                   type="text"
-//                   name="username"
-//                   id="username"
-//                   autoComplete="off"
-//                   value={contact.username}
-//                   onChange={handleInput}
-//                   required
-//                 />
-//               </div>
-
-//               {/* Email input */}
-//               <div>
-//                 <label htmlFor="email">email</label>
-//                 <input
-//                   type="email"
-//                   name="email"
-//                   id="email"
-//                   autoComplete="off"
-//                   value={contact.email}
-//                   onChange={handleInput}
-//                   required
-//                 />
-//               </div>
-
-//               {/* Message textarea */}
-//               <div>
-//                 <label htmlFor="message">message</label>
-//                 <textarea
-//                   name="message"
-//                   id="message"
-//                   autoComplete="off"
-//                   value={contact.message}
-//                   onChange={handleInput}
-//                   required
-//                   cols="30"
-//                   rows="6"
-//                 ></textarea>
-//               </div>
-
-//               {/* Submit button */}
-//               <div>
-//                 <button type="submit">submit</button>
-//               </div>
-//             </form>
-//           </section>
-//         </div>
-
-//         {/* Embedded Google Map section */}
-//         <section className="mb-3">
-//           <iframe
-//             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2613173278896!2d73.91411937501422!3d18.562253982539413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20Pune!5e0!3m2!1sen!2sin!4v1697604225432!5m2!1sen!2sin"
-//             width="100%"
-//             height="450"
-//             allowFullScreen
-//             loading="lazy"
-//             referrerPolicy="no-referrer-when-downgrade"
-//           ></iframe>
-//         </section>
-//       </section>
-//     </>
-//   );
-// };
-
-// export default Contact;

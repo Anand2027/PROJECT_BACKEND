@@ -1,23 +1,20 @@
-const {Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const contactSchema = new Schema({
   username: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: true,   // ✅ removed "unique"
   },
   message: {
     type: String,
-    required: true
-  }
-});
+    required: true,
+  },
+}, { timestamps: true }); // ✅ adds createdAt & updatedAt automatically
 
-// create a model or collection 
-
-const Contact = new model("Contact",contactSchema)
+const Contact = model("Contact", contactSchema);
 
 module.exports = Contact;
