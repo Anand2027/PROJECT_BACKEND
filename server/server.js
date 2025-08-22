@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const authRouter = require('./router/auth-router');
 const contactRoute = require('./router/contact-router');
+const serviceRoute = require("./router/service-router")
 const connectDb=require("./utlis/db")
 
 const errorMiddleware = require('./middlewares/error-middleware');
@@ -26,6 +27,7 @@ app.use("/api/form",contactRoute)
 
 // Register the router with the correct path
 app.use('/api/auth', authRouter);
+app.use('/api/data', serviceRoute);
 
 app.use(errorMiddleware);
 
