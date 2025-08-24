@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
     const [token,setToken]= useState(localStorage.getItem("token"))
     const[user,setUser]= useState("")
 
+    const[services,setServices]= useState([])
+
 
   // 2. Store token function
   const storeTokenInLS = (serverToken) => {
@@ -45,14 +47,34 @@ if(response.ok){
  }
 }
 
+ // to fetch the services data from the database
+  const getServices = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/data/service`, {
+        method: "GET",
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.msg);
+        setServices(data.msg);
+      }
+    } catch (error) {
+      console.log(`services frontend error: ${error}`);
+    }
+  };
+
+
+
 useEffect(()=>{
+  getServices();
   userAuthentication()
 },[])
 
 
 
   return (
-    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser,user}}>
+    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser,user,services}}>
       {children}
     </AuthContext.Provider>
   );

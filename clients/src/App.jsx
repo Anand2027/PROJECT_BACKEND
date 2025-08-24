@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home"; // make sure Home component exists
 import About from "./pages/About";
 import Contact from "./pages/Contact"; // make sure Home component exists
-import Service from "./pages/Service";
+import {Service} from "./pages/Service";
 import Register from "./pages/Register"; // make sure Home component exists
 import Login from "./pages/Login";
 import { Error } from "./pages/Error";
@@ -23,7 +23,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
            <Route path="/about" element={<About />} />
            <Route path="/contact" element={<Contact/>} />
-            <Route path="/sevice" element={<Service/>} />
+            <Route path="/service" element={<Service/>} />
             <Route path="/register" element={<Register/>} />
            <Route path="/login" element={<Login />} />
            <Route path="*"  element={<Error/>} />
