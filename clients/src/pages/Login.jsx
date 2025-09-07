@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
+import {toast} from 'react-toastify'          // 36.1
 
 function Login() {
 
@@ -44,9 +45,7 @@ const {storeTokenInLS} = useAuth();
       const res_data = await response.json();
 
       if(response.ok){
-        alert("Login Successful!!")
-
-        
+           
         // stored the token in localhost
         storeTokenInLS(res_data.token)
         // localStorage.setItem("token",res_data.token)
@@ -57,11 +56,12 @@ const {storeTokenInLS} = useAuth();
           password:""
       });
 
+      toast.success("Login Successful!!")
       navigate("/")
 
       }else{
 
-        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message)
+        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message)
         // alert("invalid credentials");
         console.log("invalid credentials")
       }

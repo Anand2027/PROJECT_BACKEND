@@ -576,6 +576,9 @@ a.active {
   }
 }
 
+
+
+
 /* admin  */
 .admin-users,
 .admin-user {
@@ -745,4 +748,20 @@ body tr {
       }
     }
   }
+}
+
+
+
+
+
+.Toastify__toast--success {
+  font-size: 18px;
+}
+
+.Toastify__toast--error {
+  font-size: 18px;
+}
+
+.Toastify__toast--info {
+  font-size: 18px;
 }
