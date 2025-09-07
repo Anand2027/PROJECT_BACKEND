@@ -40,14 +40,15 @@ const {storeTokenInLS} = useAuth();
         },
         body: JSON.stringify(user),
       });
+      
+      const res_data = await response.json();
+      console.log("res from server",res_data)
 
       if(response.ok){
 
-        const res_data = await response.json();
-        console.log("res from server",res_data)
         // stored the token in localhost
         // storeTokenInLS(res_data.token)
-        localStorage.setItem("token",res_data)
+        localStorage.setItem("token",res_data.extraDetails)
         
         setUser({
           username:"",
@@ -58,9 +59,11 @@ const {storeTokenInLS} = useAuth();
 
       // use navigate to send login
       navigate("/login")
+      } else{
+        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message)
       }
 
-      console.log(response);
+      
     } catch (error) {
       console.log("register", error);
     }

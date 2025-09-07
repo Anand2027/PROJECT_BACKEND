@@ -41,11 +41,11 @@ const {storeTokenInLS} = useAuth();
       });
 
       console.log("login form",response)
+      const res_data = await response.json();
 
       if(response.ok){
         alert("Login Successful!!")
 
-        const res_data = await response.json();
         
         // stored the token in localhost
         storeTokenInLS(res_data.token)
@@ -60,7 +60,9 @@ const {storeTokenInLS} = useAuth();
       navigate("/")
 
       }else{
-        alert("invalid credentials");
+
+        alert(res_data.extraDetails ? res_data.extraDetails : res_data.message)
+        // alert("invalid credentials");
         console.log("invalid credentials")
       }
     } catch (error) {
