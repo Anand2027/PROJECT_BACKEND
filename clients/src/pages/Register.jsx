@@ -60,7 +60,7 @@ const {storeTokenInLS} = useAuth();
 
       toast.success("Registration Successful!!")
       // use navigate to send login
-      navigate("/login")
+      navigate("/")
       } else{
         toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message)
       }

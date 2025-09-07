@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
 
   // 2. Store token function
   const storeTokenInLS = (serverToken) => {
-    localStorage.setItem("token", serverToken);
+    setToken(serverToken)                                                     // 37.0
+   return localStorage.setItem("token", serverToken);
   };
 
 let isLoggedIn = !!token;
