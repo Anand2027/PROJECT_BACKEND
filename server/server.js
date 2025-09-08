@@ -6,6 +6,7 @@ const cors = require('cors');
 const authRouter = require('./router/auth-router');
 const contactRoute = require('./router/contact-router');
 const serviceRoute = require("./router/service-router")
+const adminRoute = require("./router/admin-router")                    // 39.2
 const connectDb=require("./utlis/db")
 
 const errorMiddleware = require('./middlewares/error-middleware');
@@ -28,6 +29,10 @@ app.use("/api/form",contactRoute)
 // Register the router with the correct path
 app.use('/api/auth', authRouter);
 app.use('/api/data', serviceRoute);
+
+
+// let us define admin route
+app.use("/api/admin",adminRoute)                               // 39.2
 
 app.use(errorMiddleware);
 
