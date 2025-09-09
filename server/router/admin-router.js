@@ -1,8 +1,9 @@
 const express = require("express");
-const getAllUsers = require("../controllers/admin-controller")
+const adminController = require("../controllers/admin-controller")             //  40.0
 const router = express.Router();
 
 
-router.route("/users").get(getAllUsers)
+router.route("/users").get(adminController.getAllUsers)                     //  40.0
+router.route("/contacts").get(adminController.getAllContacts)            //  40.0 
 
 module.exports = router;
