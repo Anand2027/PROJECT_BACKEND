@@ -14,6 +14,10 @@ router
 .route("/users/:id")
 .get(authMiddleware,adminMiddleware, adminController.getUserById)    // 45
 
+router
+.route("/users/update/:id")
+.patch(authMiddleware,adminMiddleware, adminController.updateUserById) //  48
+
 
 router
 .route("/users/delete/:id")
