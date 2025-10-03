@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     const[user,setUser]= useState("")
 
     const[services,setServices]= useState([])
+    const authorizationToken = `Bearer ${token}`
 
 
   // 2. Store token function
@@ -33,7 +34,7 @@ const userAuthentication = async()=>{
  const response = await fetch('http://localhost:5000/api/auth/user',{
   method:"GET",
   headers:{
-    Authorization:`Bearer ${token}`,
+    Authorization:authorizationToken,
   }
  })
 
@@ -75,7 +76,7 @@ useEffect(()=>{
 
 
   return (
-    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser,user,services}}>
+    <AuthContext.Provider value={{isLoggedIn, storeTokenInLS,LogoutUser,user,services,authorizationToken}}>
       {children}
     </AuthContext.Provider>
   );

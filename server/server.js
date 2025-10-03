@@ -12,7 +12,7 @@ const connectDb=require("./utlis/db")
 const errorMiddleware = require('./middlewares/error-middleware');
 
 const corsOptions = {
-   origin:"http://localhost:5173",
+   origin:["http://localhost:5173","http://localhost:5174"],
    methods:"GET,POST,PUT,DELETE,PATCH,HEAD",
    credentials:true,
 }
