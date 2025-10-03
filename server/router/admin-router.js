@@ -9,6 +9,12 @@ router
 .route("/users")
 .get(authMiddleware,adminMiddleware, adminController.getAllUsers)                     //  41.0
 
+
+router
+.route("/users/:id")
+.get(authMiddleware,adminMiddleware, adminController.getUserById)    // 45
+
+
 router
 .route("/users/delete/:id")
 .delete(authMiddleware,adminMiddleware, adminController.deleteUserById)    // 45
