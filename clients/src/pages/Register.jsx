@@ -1,8 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
-import {useNavigate} from "react-router-dom"
-import { useAuth } from '../store/auth';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
+import { toast } from "react-toastify";
 
 function Register() {
   const [user, setUser] = useState({
@@ -12,160 +11,144 @@ function Register() {
     password: "",
   });
 
-  // use of navigate to other
   const navigate = useNavigate();
-const {storeTokenInLS} = useAuth();
+  const { storeTokenInLS } = useAuth();
 
-  // handling the input values
   const handleInput = (e) => {
-    console.log(e);
-    let name = e.target.name;
-    let value = e.target.value;
-
-    setUser({
-      ...user,
-      [name]: value,
-    });
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
   };
 
-  // handling the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
-
     try {
       const response = await fetch(`http://localhost:5000/api/auth/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
       });
-      
+
       const res_data = await response.json();
-      console.log("res from server",res_data)
 
-      if(response.ok){
-
-        // stored the token in localhost
-        // storeTokenInLS(res_data.token)
-        localStorage.setItem("token",res_data.extraDetails)
-        
-        setUser({
-          username:"",
-          email:"",
-          phone:"",
-          password:""
-      });
-
-      toast.success("Registration Successful!!")
-      // use navigate to send login
-      navigate("/")
-      } else{
-        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message)
+      if (response.ok) {
+        localStorage.setItem("token", res_data.extraDetails);
+        setUser({ username: "", email: "", phone: "", password: "" });
+        toast.success("Registration Successful!!");
+        navigate("/");
+      } else {
+        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
       }
-
-      
     } catch (error) {
       console.log("register", error);
     }
   };
 
   return (
-    <>
-      <section>
-        <main>
-          <div className="section-registration">
-            <div className="container grid grid-two-cols">
-              <div className="registration-image">
-                <img
-                  src="/images/register.png"
-                  alt="try to fill form"
-                  width="500"
-                  height="500"
-                />
-              </div>
+    <section className="bg-gray-50 py-20 min-h-screen flex items-center">
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        {/* Image */}
+        <div className="flex justify-center">
+          <img
+            src="/images/register.png"
+            alt="try to fill form"
+            className="w-full max-w-md rounded-2xl shadow-2xl transform hover:scale-105 transition duration-500"
+          />
+        </div>
 
-              <div className="registration-form">
-                <h1 className="main-heading mb-3">Registration Form</h1>
-                <br />
+        {/* Form */}
+        <div className="bg-white p-10 rounded-2xl shadow-2xl">
+          <h1 className="text-4xl font-extrabold text-green-600 mb-8 text-center">
+            Registration Form
+          </h1>
 
-                <form onSubmit={handleSubmit}>
-                  <div>
-                    <label htmlFor="username">username</label>
-                    <input
-                      type="text"
-                      name="username"
-                      placeholder="Enter your username"
-                      id="username"
-                      required
-                      autoComplete="off"
-                      value={user.username}
-                      onChange={handleInput}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Enter your email"
-                      id="email"
-                      required
-                      autoComplete="off"
-                       value={user.email}
-                      onChange={handleInput}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="phone">Phone</label>
-                    <input
-                      type="number"
-                      name="phone"
-                      placeholder="Enter your phone number"
-                      id="phone"
-                      required
-                      autoComplete="off"
-                       value={user.phone}
-                      onChange={handleInput}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type="password"  // ✅ fixed invalid type
-                      name="password"
-                      placeholder="put your password"
-                      id="password"
-                      required
-                      autoComplete="off"
-                       value={user.password}
-                      onChange={handleInput}
-                    />
-                  </div>
-
-                  <br />
-
-                  <button type="submit" className="btn btn-submit">
-                    Register Now
-                  </button>
-                </form>
-              </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Username */}
+            <div className="flex flex-col">
+              <label htmlFor="username" className="font-semibold mb-1">
+                Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Enter your username"
+                required
+                autoComplete="off"
+                value={user.username}
+                onChange={handleInput}
+                className="border-2 border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              />
             </div>
-          </div>
-        </main>
-      </section>
-    </>
+
+            {/* Email */}
+            <div className="flex flex-col">
+              <label htmlFor="email" className="font-semibold mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+                autoComplete="off"
+                value={user.email}
+                onChange={handleInput}
+                className="border-2 border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="flex flex-col">
+              <label htmlFor="phone" className="font-semibold mb-1">
+                Phone
+              </label>
+              <input
+                type="number"
+                name="phone"
+                id="phone"
+                placeholder="Enter your phone number"
+                required
+                autoComplete="off"
+                value={user.phone}
+                onChange={handleInput}
+                className="border-2 border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              />
+            </div>
+
+            {/* Password */}
+            <div className="flex flex-col">
+              <label htmlFor="password" className="font-semibold mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+                autoComplete="off"
+                value={user.password}
+                onChange={handleInput}
+                className="border-2 border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-green-600 hover:scale-105 transform transition duration-300"
+            >
+              Register Now
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   );
 }
 
 export default Register;
-
-
-
 
 
 

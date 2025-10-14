@@ -27,4 +27,9 @@ router
 .route("/contacts")
 .get(authMiddleware,adminMiddleware, adminController.getAllContacts)            //  41.0
 
+router
+.route("/contacts/delete/:id")
+.delete(authMiddleware,adminMiddleware, adminController.deleteContactById)    // 51
+
+
 module.exports = router;

@@ -14,6 +14,9 @@ import { AdminLayout } from "./components/layouts/admin-Layouts";
 import { AdminUsers } from "./pages/Admin-Users";
 import { AdminContacts } from "./pages/Admin-Contacts";
 
+import ChatBot from "./pages/ChatBot";
+import { AdminUpdate } from "./pages/Admin-Update";
+
 
 
 
@@ -30,18 +33,21 @@ const App = () => {
             <Route path="/service" element={<Service/>} />
             <Route path="/register" element={<Register/>} />
            <Route path="/login" element={<Login />} />
+           
            <Route path="*"  element={<Error/>} />
            <Route path="/logout" element={<Logout/>}/>
 
            <Route path="/admin/" element={<AdminLayout/>}>
             <Route path="users" element={<AdminUsers/>}/>
             <Route path="contacts" element={<AdminContacts/>}/>
+             <Route path="users/:id/edit" element={<AdminUpdate />} />
            </Route>
 
 
 
         </Routes>
         <Footer/>
+        <ChatBot/>
       </BrowserRouter>
     </>
   );

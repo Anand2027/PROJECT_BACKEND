@@ -1,6 +1,3 @@
-footer {
-  padding: 3.2rem;
-  text-align: center;
-  background-color: var(--btn-color);
-  margin-top: auto;
-}
+<footer class="py-8 bg-green-500 text-white text-center mt-auto">
+  <p class="font-semibold">&copy; tech_anand_solutions 2025</p>
+</footer>
