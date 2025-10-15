@@ -11,8 +11,8 @@ const Navbar = () => {
     <header className="fixed w-full z-50 bg-gradient-to-r from-green-500 to-green-600 backdrop-blur-md shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-2xl md:text-3xl font-extrabold text-white tracking-wide">
-          <NavLink to="/">NEXUS Tech Solutions</NavLink>
+        <div className="text-2xl md:text-3xl font-extrabold text-white tracking-wide outline-none">
+          <NavLink to="/">Code and Connect (C&amp;C)</NavLink>
         </div>
 
         {/* Desktop Menu */}
